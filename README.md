@@ -4,7 +4,7 @@
 <img src="images/mst3k.PNG" width="100"/> 
 
 ### Projects
-'''text
+```python
 import tensorflow as tf
-'''
+```
 ## Wearable
