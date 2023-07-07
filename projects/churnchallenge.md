@@ -1,4 +1,5 @@
 <img src="challenge.png">
+
 # Coursera Data Science Challenge
 ## Predict Customer Churn
 This project was a competition put on by Coursera. It was a quick competition with only three days open for submissions. I achieved a result in the top 1% of all competitors.
@@ -7,5 +8,6 @@ The goal of this challenge was to predict the probability of customer churn for 
 <p align="center">
 <img src="datadescription.png">
 </p>
+
 ### Exploratory Data Analysis
 This is where all projects start - EDA. I like to use ydata profiling, a Python package that can generate a pretty nice html report with one line of code. 
