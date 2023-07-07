@@ -1,2 +1,2 @@
-###Coursera Data Challenge
-##Predict Customer Churn
+# Coursera Data Challenge
+## Predict Customer Churn
