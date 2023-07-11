@@ -17,7 +17,7 @@ My general approach to data science competitions or small and well-defined proje
 6. Feature Engineering
 7. Model Tuning
 
-Larger and more complext projects result in a more complex flowchart with time spent gathering and documenting requirements, defining the verification and validaiton strategy, and project management. 
+Larger and more difficult projects result in a more complex flowchart with time spent gathering and documenting requirements, defining the verification and validaiton strategy, design reviews, and project management. 
 
 ## Exploratory Data Analysis
 
