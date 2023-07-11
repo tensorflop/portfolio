@@ -45,8 +45,10 @@ The above plot comes from ydata profiling and is part of an interactive dashboar
 One last note from the analysis - take a look at the distribution of the label, Churn:
 
 <p align="center">
-<img src="imbalance.png" width="501" height="346">
+<img src="imbalance.png" width="870" height="194">
 </p>
+
+Of the training dataset only about 18% of the customers churn. This is an imbalanced dataset. In an ideal world we would have just as many samples where the customer churns as not - a ratio of 50% - so that we could train our models to classify more accurately. There are far worse imbalances in the world - think of a rare disease that affects 1/100,000 patients - but we do not have an equal number of classes in our sample. 
 
 ## Data Preparation
 
@@ -74,4 +76,4 @@ I used the MinMaxScaler from the sklearn toolkit and normalized all numeric colu
 
 Have you ever made a change to your model and found a great improvement after testing only to find your leaderboard score actually gets worse? This is a big issue in a lot of competitions and is usually the result of overfitting. If you really want to be able to judge whether a change to your model leads to a true, generalizable improvement, getting a good cross-validation strategy is the key.
 
-The simplest validation strategy is to set aside some percentage of your dataset for testing. This method can work well, but in some cases data critical to training your model to classify properly might be split off into the test dataset. This is especially true in imbalanced datasets. 
+The simplest validation strategy is to set aside some percentage of your dataset for testing. This method can work well, but in some cases data critical to training your model to classify properly might be split off into the test dataset. This is especially true in imbalanced datasets. Remember up in our EDA we saw that only 18% of our customers churn? If we set aside 20% of our dataset there is a small chance that all of our examples of churn could be set aside for validation and our model would have no chance of learning how to predict churn. 
