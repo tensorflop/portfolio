@@ -42,6 +42,12 @@ Two features were significantly correlated. This turned out to be pretty intuiti
 
 The above plot comes from ydata profiling and is part of an interactive dashboard that allows you to visualize feature interactions. Pretty nice! You can see a positive linear relationship between these two variables. It may or may not make sense to remove one of these correlated features - we can find out later during feature engineering and model optimization. 
 
+One last note from the analysis - take a look at the distribution of the label, Churn:
+
+<p align="center">
+<img src="imbalance.png" width="501" height="346">
+</p>
+
 ## Data Preparation
 
 My plan was to evaluate baseline performance using four different models: Deep Neural Network (DNN), XGBoost, LightGBM, and Logistic Regression. These are tools that I have used for other competitions with straightforward tabular datasets. A neural network is based on a number of nodes. Each node takes input values, either from the original feature set or from other nodes, and applies a mathematical operation to generate an output. By tuning the coefficients of these mathematical operations one can define complex interactions between features. XGBoost and LightGBM are both boosted, tree-based models. These two models work in slightly different ways and one may offer a performance benefit for a given problem. Logistic regression uses a linear combination of all the features to predict the probability of a classification. I am discussing these models here because each model has different needs for data preparation. 
@@ -66,4 +72,6 @@ I used the MinMaxScaler from the sklearn toolkit and normalized all numeric colu
 
 ## Cross Validation Strategy
 
-Have you ever made a change to your model and found a great improvement after testing only to find your leaderboard score actually gets worse? This is a big issue in competitions and is usually the result of overfitting. If you really want to be able to judge whether a change to your model leads to a true, generalizable improvement, 
+Have you ever made a change to your model and found a great improvement after testing only to find your leaderboard score actually gets worse? This is a big issue in a lot of competitions and is usually the result of overfitting. If you really want to be able to judge whether a change to your model leads to a true, generalizable improvement, getting a good cross-validation strategy is the key.
+
+The simplest validation strategy is to set aside some percentage of your dataset for testing. This method can work well, but in some cases data critical to training your model to classify properly might be split off into the test dataset. This is especially true in imbalanced datasets. 
