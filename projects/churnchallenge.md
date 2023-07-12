@@ -1,12 +1,12 @@
-<img src="challenge.png">
+<img src="/images/challenge.png">
 
 This project was a competition put on by Coursera. It was a quick competition with only three days open for submissions. I achieved a result in the top 1% of all competitors.
 
-<img src="description.png">
+<img src="/images/description.png">
 
 The goal of this challenge was to predict the probability of customer churn for a streaming service. The performance metric for this challenge was the Area Under the Curve (AUC) of the Receiver-Operating Characteristic (ROC). I suppose you could call this a binary classification problem as a customer will either churn or not, but in reality we are looking to predict the probability that a specific customer will churn, making it arguably a regression. A train and test dataset were provided, with the training dataset containing labels for customer churn. The data description is shown in the table below.
 <p align="center">
-<img src="datadescription.png">
+<img src="/images/datadescription.png">
 </p>
 
 ## General Approach
@@ -39,7 +39,7 @@ The dataset for this competition was relatively straightforward. There were no m
 Two features were significantly correlated. This turned out to be pretty intuitive, the Account Age correlating highly with Total Charges. 
 
 <p align="center">
-<img src="totalcharge-accountage.png" width="501" height="346">
+<img src="/images/totalcharge-accountage.png" width="501" height="346">
 </p>
 
 The above plot comes from ydata profiling and is part of an interactive dashboard that allows you to visualize feature interactions. Pretty nice! You can see a positive linear relationship between these two variables. It may or may not make sense to remove one of these correlated features - we can find out later during feature engineering and model optimization. 
@@ -47,7 +47,7 @@ The above plot comes from ydata profiling and is part of an interactive dashboar
 One last note from the analysis - take a look at the distribution of the label, Churn:
 
 <p align="center">
-<img src="imbalance.png" width="870" height="194">
+<img src="/images/imbalance.png" width="870" height="194">
 </p>
 
 Of the training dataset only about 18% of the customers churn. This is an imbalanced dataset. In an ideal world we would have just as many samples where the customer churns as not - a ratio of 50% - so that we could train our models to classify more accurately. There are far worse imbalances in the world - think of a rare disease that affects 1/100,000 patients - but we do not have an equal number of classes in our sample. 
