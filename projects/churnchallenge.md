@@ -36,7 +36,7 @@ I like to use ydata profiling, a Python package that can generate a pretty nice 
 
 The dataset for this competition was relatively straightforward. There were no missing values in either the training or test dataset. There are 10 categorical features, 9 numeric features, a Customer ID, and a binary target (the target present only in the training dataset). There were no significant outliers, unusual distributions, or heavily skewed features. 
 
-Two features were significantly correlated. This turned out to be pretty intuitive, the Account Age correlating highly with Total Charges. 
+Two features were significantly correlated. This turned out to be pretty intuitive, the Account Age correlating highly with Total Charges with a Spearman Correlation Coefficient of 0.86. 
 
 <p align="center">
 <img src="images/totalcharge-accountage.png" width="501" height="346">
@@ -64,17 +64,24 @@ For the categorical features in this dataset I chose the one-hot encoding techni
 
 I like to use Pandas DataFrames to hold and manipulate datasets. The Pandas library is really fantastic and contains many helpful methods for data manipulation and even visualization. Unfortunately for one-hot encoding I feel the standard Pandas technique has a serious shortfall. The Pandas libarary has a get_dummies method that one-hot encodes a column. It can retain the original column name as a prefix and append the categorical value to the column name. This would result in columns like "SubscriptionType_Basic" and "SubscriptionType_Standard." The shortfall is that this method is not persistent. This means that the get_dummies method on your training DataFrame can return a different number of columns than on your test DataFrame if any of the categorical values are not present in one of the two datasets. The sklearn library has a very nice one-hot encoder but unfortunately does not preserve DataFrame column names by default. While it's not terribly hard to work around all of this, I found a [nice class](https://github.com/gdiepen/PythonScripts/blob/master/dataframe_onehotencoder.py) provided by Guido Diepen under the MIT license (thank you, Guido!) that overcomes this issue. You can create an encoder object that you can use to fit and transform your training DataFrame and then transform your test DataFrame. No column mismatch and you get nice and clear column names by default.
 
-'''python
-
+```python
+# define categorical columns for one-hot encoding
 catcols = ['SubscriptionType', 'PaymentMethod', 'PaperlessBilling', 'ContentType', 'MultiDeviceAccess',
     'DeviceRegistered', 'GenrePreference', 'Gender', 'ParentalControl', 'SubtitlesEnabled']
+
+# create an encoder
 df_ohe = DataFrameOneHotEncoder()
+
+# create the encoded feature columns
 dummies = df_ohe.fit_transform(train_df[catcols])
+
+# match the index to the original DataFrame
 dummies.index = train_df.index
+
+# add the encoded columns to the original DataFrame and drop the originals
 train_df = pd.concat([train_df, dummies], axis=1)
 train_df = train_df.drop(columns = catcols)
-
-'''
+```
 
 All categorical columns were one-hot encoded using the referenced encoder above. The original columns were dropped from the DataFrames.
 
