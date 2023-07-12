@@ -2,7 +2,7 @@
 
 This project was a competition put on by Coursera. It was a quick competition with only three days open for submissions. I achieved a result in the top 1% of all competitors.
 
-<img src="images/description.png">
+## Challenge Description
 
 The goal of this challenge was to predict the probability of customer churn for a streaming service. The performance metric for this challenge was the Area Under the Curve (AUC) of the Receiver-Operating Characteristic (ROC). I suppose you could call this a binary classification problem as a customer will either churn or not, but in reality we are looking to predict the probability that a specific customer will churn, making it arguably a regression. A train and test dataset were provided, with the training dataset containing labels for customer churn. The data description is shown in the table below.
 <p align="center">
@@ -19,7 +19,7 @@ My general approach to data science competitions or small and well-defined proje
 6. Feature Engineering
 7. Model Tuning
 
-Larger and more difficult projects result in a more complex flowchart with time spent gathering and documenting requirements, defining the verification and validaiton strategy, design reviews, and project management. 
+Larger and more difficult projects result in a more complex flowchart with time spent gathering and documenting requirements, defining the verification and validation strategy, design reviews, and project management. 
 
 ## Exploratory Data Analysis
 
@@ -63,6 +63,8 @@ While LightGBM and XGBoost have experimental support for categorical features, m
 For the categorical features in this dataset I chose the one-hot encoding technique. There were some features that you could argue are ordinal (such as Subscription Type - standard, basic and premium), but since one of my models is Logistic Regression there is some danger to ordinal encoding. If I encoded Subscription Type using ordinal encoding and assigned a value of 1 for Basic, 2 for Standard, and 3 for Premium then by nature the contribution of this feature will be stuck with those ratios. Whatever effect Subscription Type contributes through Logistic Regression will be twice for Standard and three times for Premium. By one-hot encoding the model is free to independently determine the contributions of each Subscription Type to the classification.
 
 I like to use Pandas DataFrames to hold and manipulate datasets. The Pandas library is really fantastic and contains many helpful methods for data manipulation and even visualization. Unfortunately for one-hot encoding I feel the standard Pandas technique has a serious shortfall. The Pandas libarary has a get_dummies method that one-hot encodes a column. It can retain the original column name as a prefix and append the categorical value to the column name. This would result in columns like "SubscriptionType_Basic" and "SubscriptionType_Standard." The shortfall is that this method is not persistent. This means that the get_dummies method on your training DataFrame can return a different number of columns than on your test DataFrame if any of the categorical values are not present in one of the two datasets. The sklearn library has a very nice one-hot encoder but unfortunately does not preserve DataFrame column names by default. While it's not terribly hard to work around all of this, I found a [nice class](https://github.com/gdiepen/PythonScripts/blob/master/dataframe_onehotencoder.py) provided by Guido Diepen under the MIT license (thank you, Guido!) that overcomes this issue. You can create an encoder object that you can use to fit and transform your training DataFrame and then transform your test DataFrame. No column mismatch and you get nice and clear column names by default.
+
+
 
 All categorical columns were one-hot encoded using the referenced encoder above. The original columns were dropped from the DataFrames.
 
