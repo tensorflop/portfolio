@@ -28,7 +28,7 @@ Larger and more difficult projects result in a more complex flowchart with time 
 
 ## Exploratory Data Analysis
 
-The dataset for this competition was relatively straightforward. There were no missing values in either the training or test dataset. There were no significant outliers, unusual distributions, or heavily skewed features.
+The dataset for this competition was relatively straightforward. There were no missing values in either the training or test dataset. There were no significant outliers, unusual distributions, or heavily skewed features. The only really noteworthy thing I discovered during EDA was that the dataset was imbalanced, only about 18% of the data representing customers that churned.
 
 <details>
     <summary>Expand here for more nerd detail</summary>
@@ -136,7 +136,7 @@ Here is a box and whisker plot where I have evaluated model performance using fi
 <img src="images/traintest.png" width="500" height="310">
 </p>
 
-We might be OK using this simple validation strategy, but let's look at picking between our three models here. While any one of our random seeds would show us that the XGBoost model is the worst performer, there are some runs where our LightGBM model could appear to be superior to our Logistic Regression. After five different random seeds, which would you pick? Looking at this plot the Logistic Regression is the obvious choice but you might have made the wrong choice just using this basic train-test split method and using only one random seed. 
+We might be OK using this simple validation strategy, but let's look at picking between our three models here. While any one of our random seeds would show us that the XGBoost model is the worst performer, there are some runs where our LightGBM model could appear to be superior to our Logistic Regression. After five different random seeds, which would you pick? Looking at this plot the Logistic Regression is the obvious choice but you might have picked wrong just using this basic train-test split method and only one random seed. 
 
 I opted to use a repeated stratified K-fold from the sklearn toolkit with 5 splits and 3 repeats. The splits refer to the number of folds, or equal parts, that your data gets cut up into. Our dataset has 243,787 rows so each of our folds will be 48,757 or so (rounding error). By using stratified folds the algorithm ensures that each fold contains roughly the same percentage of churn vs no churn customers. This process of stratifying and splitting the dataset into five parts is repeated three times over using a different random seed each time. We evaluate our model and score it on every fold and every repeat and can get an average and standard deviation of our model performance. This gives us a real opportunity to evaluate changes to our model to see if they will generalize well or are potentially overfitting. 
 
