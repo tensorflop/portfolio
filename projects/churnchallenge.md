@@ -150,7 +150,11 @@ Now I have a starting point I can use to see how a model compares against this v
 >Take a look at the accuracy score - just above 82%. Remember the imbalance of our dataset? Just about 18% of the data points are for customers that churn. The Gaussian Naive Bayes classifier is maybe marginally better than just assuming every customer will not churn. Not great performance there, and maybe an indication that it will be tough to get dramatic improvements.
 >For curiosity's sake, let's take a look at the confusion matrix for the Gaussian Naive Bayes model predictions on the test data set.
 
+<p align="center">
+<img src="images/confusionNB.png" width="480" height="360">
+</p>
 
+>The confusion matrix is helpful in telling us a bit more of the story. We're obviously not getting great performance out of the model, but we are seeing some ability to predict customers that churn. This model manages a True Positive rate of about 16%. Unfortunately we are also seeing some False Positives and False Negatives. 
 
 </details>
 
