@@ -118,24 +118,37 @@ Have you ever made a change to your model and found a great improvement after te
 <details>
     <summary>Expand here for more nerd detail</summary>
 
-The simplest validation strategy is to set aside some percentage of your dataset for testing. This method can work well, but in some cases data critical to training your model to classify properly might be split off into the test dataset. This is especially true in imbalanced datasets. Remember up in our EDA we saw that only 18% of our customers churn? If we set aside 20% of our dataset there is a small chance that all of our examples of churn could be set aside for validation and our model would have no chance of learning how to predict churn. 
+>The simplest validation strategy is to set aside some percentage of your dataset for testing. This method can work well, but in some cases data critical to training your model to classify properly might be split off into the test dataset. This is especially true in imbalanced datasets. Remember up in our EDA we saw that only 18% of our customers churn? If we set aside 20% of our dataset there is a small chance that all of our examples of churn could be set aside for validation and our model would have no chance of learning how to predict churn. 
 
-Here is a typical test-train split operation using test_train_split from the sklearn toolkit:
+>Here is a typical test-train split operation using test_train_split from the sklearn toolkit:
 ```python
 X_train, X_test, y_train, y_test = train_test_split(train_df, y, test_size=0.2, random_state=42)
 ```
-That's pretty simple and easy. If you want to know if you need a better strategy, run your model and score your result using different random_state values in the line of code above. If you see large swings in your results you probably need to improve your validation strategy.
+>That's pretty simple and easy. If you want to know if you need a better strategy, run your model and score your result using different random_state values in the line of code above. If you see large swings in your results you probably need to improve your validation strategy.
 
-Here is a box and whisker plot where I have evaluated model performance using five different random seeds in the test-train split code above:
+>Here is a box and whisker plot where I have evaluated model performance using five different random seeds in the test-train split code above:
 <p align="center">
 <img src="images/traintest.png" width="500" height="310">
 </p>
 
-We might be OK using this simple validation strategy, but let's look at picking between our three models here. While any one of our random seeds would show us that the XGBoost model is the worst performer, there are some runs where our LightGBM model could appear to be superior to our Logistic Regression. After five different random seeds, which would you pick? Looking at this plot the Logistic Regression is the obvious choice but you might have picked wrong just using this basic train-test split method and only one random seed. 
+>We might be OK using this simple validation strategy, but let's look at picking between our three models here. While any one of our random seeds would show us that the XGBoost model is the worst performer, there are some runs where our LightGBM model could appear to be superior to our Logistic Regression. After five different random seeds, which would you pick? Looking at this plot the Logistic Regression is the obvious choice but you might have picked wrong just using this basic train-test split method and only one random seed. 
 
-I opted to use a repeated stratified K-fold from the sklearn toolkit with 5 splits and 3 repeats. The splits refer to the number of folds, or equal parts, that your data gets cut up into. Our dataset has 243,787 rows so each of our folds will be 48,757 or so (rounding error). By using stratified folds the algorithm ensures that each fold contains roughly the same percentage of churn vs no churn customers. This process of stratifying and splitting the dataset into five parts is repeated three times over using a different random seed each time. We evaluate our model and score it on every fold and every repeat and can get an average and standard deviation of our model performance. This gives us a real opportunity to evaluate changes to our model to see if they will generalize well or are potentially overfitting. 
+>I opted to use a repeated stratified K-fold from the sklearn toolkit with 5 splits and 3 repeats. The splits refer to the number of folds, or equal parts, that your data gets cut up into. Our dataset has 243,787 rows so each of our folds will be 48,757 or so (rounding error). By using stratified folds the algorithm ensures that each fold contains roughly the same percentage of churn vs no churn customers. This process of stratifying and splitting the dataset into five parts is repeated three times over using a different random seed each time. We evaluate our model and score it on every fold and every repeat and can get an average and standard deviation of our model performance. This gives us a real opportunity to evaluate changes to our model to see if they will generalize well or are potentially overfitting. 
 
 </details>
 
 ## Baseline Model Performance
 
+I like to start with a very simple model. This helps me to understand where I am starting from and I can use it to evaluate more sophisticated models to see if the added complexity offers any benefit. There are a lot of simple models you can use as a baseline; I chose the Gaussian Naive Bayes model in the sklearn toolkit. My score with the Gaussian Naive Bayes model was:
+>AUC-ROC: 0.737 Accuracy: 0.824
+
+Now I have a starting point I can use to see how a model compares against this very simple baseline.
+
+<details>
+    <summary>Expand here for more nerd detail</summary>
+
+>Take a look at the accuracy score - just above 82%. Remember the imbalance of our dataset? Just about 18% of the data points are for customers that churn. The Gaussian Naive Bayes classifier is maybe marginally better than just assuming every customer will not churn. Not great performance there, and maybe an indication that it will be tough to get dramatic improvements.
+
+</details>
+
+## 
