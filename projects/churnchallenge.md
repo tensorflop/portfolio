@@ -147,15 +147,25 @@ Now I have a starting point I can use to see how a model compares against this v
 <details>
     <summary>Expand here for more nerd detail</summary>
 
->Take a look at the accuracy score - just above 82%. Remember the imbalance of our dataset? Just about 18% of the data points are for customers that churn. The Gaussian Naive Bayes classifier is maybe marginally better than just assuming every customer will not churn. Not great performance there, and maybe an indication that it will be tough to get dramatic improvements.
+>Take a look at the accuracy score - just above 82%. Remember the imbalance of our dataset? Just about 18% of the data points are for customers that churn. If we assumed that every customer would not churn we would be at just about 82% accuracy. Our Gaussian Naive Bayes classifier is maybe marginally better than that. Not great performance there, and maybe an indication that it will be tough to get dramatic improvements. This is also a good example of when accuracy is not a very good metric for imbalanced datasets. 
 >For curiosity's sake, let's take a look at the confusion matrix for the Gaussian Naive Bayes model predictions on the test data set.
 
 <p align="center">
 <img src="images/confusionNB.png" width="480" height="360">
 </p>
 
->The confusion matrix is helpful in telling us a bit more of the story. We're obviously not getting great performance out of the model, but we are seeing some ability to predict customers that churn. This model manages a True Positive rate of about 16%. Unfortunately we are also seeing some False Positives and False Negatives. 
+>The confusion matrix is helpful in telling us a bit more of the story. We're obviously not getting great performance out of the model, but we are seeing some ability to predict customers that churn. This model manages a True Positive Rate (TPR) of about 16%. Unfortunately we are also seeing some False Positives and False Negatives. 
 
 </details>
 
-## 
+## Feature Engineering
+
+After evaluating a number of options, the only technique with any payoff turns out to be random undersampling to address the imbalance of the dataset. I used the RandomUnderSampler module in the imblearn library to randomly undersample the dataset until the churn positive samples totaled 50% of the total samples. 
+
+<details>
+    <summary>Expand here for more nerd detail</summary>
+
+>One thing that I really enjoy in data science is using domain knowledge to synthesize new features from existing features for a performance boost in my model. Sadly, I could not find a single synthesized feature that offered any performance benefit whatsoever. I tried applying some intuition in combining features, such as multiplying the *MonthlyCharges* times the *SupportTicketsPerMonth* and then dividing by *TotalCharges*. My thought process there was that customers that were paying more for the service and reporting more issues through support tickets were more likely to cancel their subscription. I divided by *TotalCharges* thinking that customers who had been with the service longer were less likely to churn. Since the dataset is relatively small here I even tried some brute force feature synthesis. This is where you synthesize new features algorithmically and evaluate each one in your model(s) to see if there is a performance benefit. This is where your validation method can come through for you. If you don't have a good validation method you can end up thinking you got a performance benefit where in reality there is none there, and vice versa. Don't make the mistake of evaluating synthesized features by simply plugging them in your model and seeing if the feature ranks high in the importance score. This is a rookie move - I know because I've made that very mistake. If your model isn't performing better with a synthesized feature then it doesn't matter what the importance of that feature was in your model. 
+>
+
+</details>
