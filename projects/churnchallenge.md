@@ -115,6 +115,8 @@ test_df = test_df.drop(columns = catcols)
 
 Have you ever made a change to your model and found a great improvement after testing only to find your leaderboard score actually gets worse? This is a big issue in a lot of competitions and is usually the result of overfitting. If you really want to be able to judge whether a change to your model leads to a true, generalizable improvement, getting a good cross-validation strategy is the key. 
 
+For this competition I ended up using a repeated stratified K-fold with 5 splits and 3 repeats. 
+
 <details>
     <summary>Expand here for more nerd detail</summary>
 
